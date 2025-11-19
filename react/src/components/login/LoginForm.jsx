@@ -14,7 +14,7 @@ export default function LoginForm() {
         <div className="card card-login shadow-lg p-3" style={{ width: '100%', maxWidth: '400px' }}>
           <div className="card-body">
             <div className="text-center mb-4">
-              <h2 className="text-purple-dark fw-bold">Acesso M2NPS</h2>
+              <h2 className="text-purple-dark fw-bold">Acesso ao Apeaqui!</h2>
               <p className="text-muted">Entre com suas credenciais.</p>
             </div>
 

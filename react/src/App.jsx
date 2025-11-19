@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import { AlignCenter, AlignJustify, Zap } from 'lucide-react';
 
@@ -77,14 +78,14 @@ function App() {
     }}
   >
     <FadeInScreen
-      duration={2500}
-      imagePath="src/img/apeaquiteste.png"
+      duration={3000}
+      imagePath="src/img/apeaqui.jpeg"
       imageStyle={{
-        width: '400px',
-        height: '400px',
+        width: '150px',
+        height: '150px',
       }}
     >
-      <RegisterPage />
+      <LoginPage />
     </FadeInScreen>
   </div>
   );

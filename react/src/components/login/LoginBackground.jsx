@@ -3,9 +3,9 @@ import './css/LoginBackground.css';
 
 export default function LoginBackground() {
 
- const purpleHalf = document.querySelector('.purple-half');
-        
-       useEffect(() => {
+  const purpleHalf = document.querySelector('.purple-half');
+
+  useEffect(() => {
     const purpleHalf = document.querySelector('.purple-half');
 
     function createParticle() {
@@ -27,12 +27,12 @@ export default function LoginBackground() {
   }, []);
 
   return (
- <div class="background">
-        <div class="purple-half">
-            <div class="wave-effect"></div>
-        </div>
-        <div class="white-half"></div>
-        <div class="divider"></div>
+    <div class="background">
+      <div class="purple-half">
+        <div class="wave-effect"></div>
+      </div>
+      <div class="white-half"></div>
+      <div class="divider"></div>
     </div>
 
   );
