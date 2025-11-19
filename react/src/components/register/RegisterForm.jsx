@@ -3,10 +3,26 @@ import './css/RegisterForm.css';
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   function togglePassword() {
     setShowPassword(prev => !prev);
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      window.location.href = '/dashboard';
+
+    } catch (error) {
+      console.error('Erro no login:', error);
+      setIsLoading(false);
+      alert('Erro ao fazer login');
+    }
+  };
 
   return (
     <div className="signup-container">
@@ -20,7 +36,7 @@ export default function RegisterForm() {
             <p className="text-muted">Comece sua gestão inteligente hoje mesmo!</p>
           </div>
 
-          <form id="signupForm" action="ControllerSignin.php" method="POST">
+          <form id="signupForm" action="ControllerSignin.php" method="POST" onSubmit={handleSubmit}>
 
             <div className="mb-3">
               <label htmlFor="fullName" className="form-label text-purple-dark fw-semibold">
@@ -94,8 +110,16 @@ export default function RegisterForm() {
             </div>
 
             <div className="d-grid">
-              <button type="submit" className="btn btn-custom btn-lg">
-                Criar Conta
+              <button
+                type="submit"
+                className="btn btn-custom btn-lg"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span className="spinner"></span>
+                ) : (
+                  <span>Criar Conta</span>
+                )}
               </button>
             </div>
 
