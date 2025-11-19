@@ -20,7 +20,7 @@ export default function LoginForm() {
 
             <form id="loginForm">
               <div className="mb-3">
-                <label htmlFor="email" className="form-label fw-semibold" style={{ color: '#3A107C' }}>
+                <label htmlFor="email" className="form-label fw-semibold text-purple-dark">
                   E-mail
                 </label>
                 <input
@@ -34,7 +34,7 @@ export default function LoginForm() {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="password" className="form-label fw-semibold" style={{ color: '#3A107C' }}>
+                <label htmlFor="password" className="form-label fw-semibold text-purple-dark">
                   Senha
                 </label>
                 <div className="input-group">
