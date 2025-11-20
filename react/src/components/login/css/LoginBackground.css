@@ -21,7 +21,6 @@
      overflow: hidden;
  }
 
- /* Animação sutil de ondas */
  .wave-effect {
      position: absolute;
      width: 100%;
@@ -36,7 +35,7 @@
      height: 200%;
      top: -50%;
      left: -50%;
-     background: radial-gradient(circle, rgba(255, 255, 255, 0.582) 1px, transparent 1px);
+     background: radial-gradient(circle, rgb(255, 255, 255) 1px, transparent 1px);
      background-size: 50px 50px;
      animation: waveMove 20s linear infinite;
  }
