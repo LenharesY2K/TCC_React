@@ -4,6 +4,8 @@ import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import { AlignCenter, AlignJustify, Zap } from 'lucide-react';
 import JoinPage from './components/pages/JoinPage';
+import Dashboard from './components/pages/Dashboard';
+import Main from './components/Dashboard/Main';
 
 function FadeInScreen({ children, duration = 2000, imagePath, imageStyle = {} }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -86,7 +88,7 @@ function App() {
         height: '150px',
       }}
     >
-      <JoinPage />
+      <Main />
     </FadeInScreen>
   </div>
   );
