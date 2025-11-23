@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import LoginPage from './components/pages/LoginPage';
+import StartTrial from './components/pages/StartTrial';
 import RegisterPage from './components/pages/RegisterPage';
 import JoinPage from './components/pages/JoinPage';
 import Dashboard from './components/pages/Dashboard';
@@ -87,6 +88,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/join" element={<JoinPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/startTrial" element={<StartTrial />} />
           </Routes>
         </FadeInScreen>
       </BrowserRouter>
