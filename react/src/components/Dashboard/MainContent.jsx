@@ -14,6 +14,7 @@ import {
   faGear
 } from '@fortawesome/free-solid-svg-icons';
 import './css/main.css';
+import './css/graphics.css';
 
 export default function MainContent() {
   const stats = [
@@ -23,7 +24,7 @@ export default function MainContent() {
       change: '+12.5%',
       trend: 'up',
       icon: faChartLine,
-      color: '#202170d2'
+      color: '#202170'
     },
     {
       title: 'Novos Clientes',
@@ -31,7 +32,7 @@ export default function MainContent() {
       change: '+8.2%',
       trend: 'up',
       icon: faUsers,
-      color: '#202170d2'
+      color: '#202170'
     },
     {
       title: 'Faturas Pendentes',
@@ -39,7 +40,7 @@ export default function MainContent() {
       change: '-5.1%',
       trend: 'down',
       icon: faFileInvoiceDollar,
-      color: '#202170d2'
+      color: '#202170'
     },
     {
       title: 'Encomendas',
@@ -47,7 +48,7 @@ export default function MainContent() {
       change: '+15.3%',
       trend: 'up',
       icon: faBox,
-      color: '#202170d2'
+      color: '#202170'
     }
   ];
 
@@ -78,7 +79,7 @@ export default function MainContent() {
             Seu ambiente de trabalho está carregado e pronto para uso.
             Utilize o menu lateral ou a barra de pesquisa para navegar.
           </p>
-         
+
         </div>
         <div className="hero-illustration-main">
           <div className="floating-card-main card-1-main">
@@ -93,7 +94,6 @@ export default function MainContent() {
         </div>
       </div>
 
-      {/* Stats Grid */}
       <div className="stats-grid-main">
         {stats.map((stat, index) => (
           <div key={index} className="stat-card-main">
@@ -105,8 +105,8 @@ export default function MainContent() {
               <div className="stat-value-row-main">
                 <h3 className="stat-value-main">{stat.value}</h3>
                 <span className={`stat-change-main ${stat.trend}`}>
-                  <FontAwesomeIcon 
-                    icon={stat.trend === 'up' ? faArrowTrendUp : faArrowTrendDown} 
+                  <FontAwesomeIcon
+                    icon={stat.trend === 'up' ? faArrowTrendUp : faArrowTrendDown}
                   />
                   {stat.change}
                 </span>
@@ -116,9 +116,8 @@ export default function MainContent() {
         ))}
       </div>
 
-      {/* Quick Actions */}
       <div className="section-header-main">
-        <div>
+        <div className="section-header-content-main">
           <h2 className="section-title-main">Ações Rápidas</h2>
           <p className="section-subtitle-main">Acesse as funcionalidades mais usadas</p>
         </div>
@@ -137,27 +136,63 @@ export default function MainContent() {
         ))}
       </div>
 
-      {/* Recent Activities */}
-      <div className="section-header-main">
-        <div>
-          <h2 className="section-title-main">Atividades Recentes</h2>
+      <div className="dashboard-card-chart">
+        <div className="card-header-chart">
+          <h2 className="section-title-chart">Desempenho Mensal</h2>
+          <select className="chart-period-select">
+            <option>Últimos 7 dias</option>
+            <option>Últimos 30 dias</option>
+            <option>Últimos 3 meses</option>
+          </select>
         </div>
-        <a href="#" className="view-all-main">Ver todas</a>
-      </div>
-      <div className="activities-card-main">
-        {recentActivities.map((activity, index) => (
-          <div key={index} className="activity-item-main">
-            <div className="activity-icon-main" style={{ background: `${activity.color}20`, color: activity.color }}>
-              <FontAwesomeIcon icon={activity.icon} />
+        <div className="chart-container-chart">
+          <div className="chart-bars-chart">
+            <div className="bar-wrapper-chart">
+              <div className="bar-chart" style={{ height: '60%', background: '#5aa0e6' }}></div>
+              <span className="bar-label-chart">Seg</span>
             </div>
-            <div className="activity-content-main">
-              <p className="activity-text-main">{activity.text}</p>
-              <span className="activity-time-main">{activity.time}</span>
+            <div className="bar-wrapper-chart">
+              <div className="bar-chart" style={{ height: '75%', background: '#202170' }}></div>
+              <span className="bar-label-chart">Ter</span>
+            </div>
+            <div className="bar-wrapper-chart">
+              <div className="bar-chart" style={{ height: '55%', background: '#5aa0e6' }}></div>
+              <span className="bar-label-chart">Qua</span>
+            </div>
+            <div className="bar-wrapper-chart">
+              <div className="bar-chart" style={{ height: '85%', background: '#202170' }}></div>
+              <span className="bar-label-chart">Qui</span>
+            </div>
+            <div className="bar-wrapper-chart">
+              <div className="bar-chart" style={{ height: '70%', background: '#5aa0e6' }}></div>
+              <span className="bar-label-chart">Sex</span>
+            </div>
+            <div className="bar-wrapper-chart">
+              <div className="bar-chart" style={{ height: '45%', background: '#202170' }}></div>
+              <span className="bar-label-chart">Sáb</span>
+            </div>
+            <div className="bar-wrapper-chart">
+              <div className="bar-chart" style={{ height: '35%', background: '#5aa0e6' }}></div>
+              <span className="bar-label-chart">Dom</span>
             </div>
           </div>
-        ))}
+          <div className="chart-stats-chart">
+            <div className="chart-stat-item-chart">
+              <span className="chart-stat-label-chart">Total</span>
+              <span className="chart-stat-value-chart">R$ 3124.R$</span>
+            </div>
+            <div className="chart-stat-item-chart">
+              <span className="chart-stat-label-chart">Média</span>
+              <span className="chart-stat-value-chart">R$ 302.8R$</span>
+            </div>
+            <div className="chart-stat-item-chart">
+              <span className="chart-stat-label-chart">Crescimento</span>
+              <span className="chart-stat-value-chart success">+12.5%</span>
+            </div>
+          </div>
+        </div>
       </div>
-
+      <br></br>
     </>
   );
 }

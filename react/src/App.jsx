@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
-import { AlignCenter, AlignJustify, Zap } from 'lucide-react';
 import JoinPage from './components/pages/JoinPage';
 import Dashboard from './components/pages/Dashboard';
-import Main from './components/Dashboard/Main';
+import { Zap } from 'lucide-react';
 
 function FadeInScreen({ children, duration = 2000, imagePath, imageStyle = {} }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -49,11 +49,7 @@ function FadeInScreen({ children, duration = 2000, imagePath, imageStyle = {} })
       >
         <div className="flex flex-col items-center gap-4">
           {imagePath ? (
-            <img
-              src={imagePath}
-              alt="Logo"
-              style={defaultImageStyle}
-            />
+            <img src={imagePath} alt="Logo" style={defaultImageStyle} />
           ) : (
             <Zap className="w-20 h-20 text-purple-600 animate-pulse" />
           )}
@@ -71,26 +67,30 @@ function FadeInScreen({ children, duration = 2000, imagePath, imageStyle = {} })
 
 function App() {
   return (
-      <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
-      width: '100%',
-    }}
-  >
-    <FadeInScreen
-      duration={3000}
-      imagePath="src/img/apeaqui.jpeg"
-      imageStyle={{
-        width: '150px',
-        height: '150px',
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        width: '100%',
       }}
     >
-      <Main />
-    </FadeInScreen>
-  </div>
+      <BrowserRouter>
+        <FadeInScreen
+          duration={3000}
+          imagePath="src/img/apeaqui.jpeg"
+          imageStyle={{ width: "150px", height: "150px" }}
+        >
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/join" element={<JoinPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </FadeInScreen>
+      </BrowserRouter>
+    </div>
   );
 }
 

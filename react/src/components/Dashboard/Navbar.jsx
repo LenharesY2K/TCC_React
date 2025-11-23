@@ -13,8 +13,8 @@ import {
 export default function Navbar() {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
-  const [notifications] = useState(3);
-  const [messages] = useState(2);
+  const [notifications] = useState(99);
+  const [messages] = useState(99);
 
   return (
     <>
@@ -46,7 +46,6 @@ export default function Navbar() {
             )}
           </div>
 
-          <div className="divider"></div>
 
           <div 
             className="profile-section"

@@ -11,7 +11,8 @@ import {
   faUsers,
   faChevronDown,
   faChevronUp,
-  faBars
+  faBars,
+  faList
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function Sidebar() {
@@ -88,7 +89,7 @@ export default function Sidebar() {
           className="sidebar-toggle-btn sidebar-open-btn"
           onClick={() => setSidebarOpen(true)}
         >
-          <FontAwesomeIcon icon={faBars} />
+          <FontAwesomeIcon icon={faList} />
         </button>
       )}
 
