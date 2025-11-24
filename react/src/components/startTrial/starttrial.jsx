@@ -103,7 +103,6 @@ export default function CreateOrganization() {
 
     return (
         <>
-            <div className="card-login">
                 <div className="creation-wrapper">
                     <div className="creation-container-new">
                         <div className="form-container-new">
@@ -251,7 +250,6 @@ export default function CreateOrganization() {
                         </div>
                     </div>
                 </div>
-            </div>
         </>
     );
 }
