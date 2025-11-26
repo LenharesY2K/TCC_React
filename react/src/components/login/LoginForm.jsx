@@ -13,15 +13,34 @@ export default function LoginForm() {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+    const email = e.target.email.value;
+    const password = e.target.password.value;
 
-      window.location.href = '/dashboard';
+    try {
+      const response = await fetch("http://localhost:8000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setIsLoading(false);
+        alert(data.message || "Erro ao fazer login");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      window.location.href = "/dashboard";
 
     } catch (error) {
-      console.error('Erro no login:', error);
+      console.error("Erro no login:", error);
+      alert("Erro de comunicação com servidor");
       setIsLoading(false);
-      alert('Erro ao fazer login');
     }
   };
 
@@ -101,7 +120,7 @@ export default function LoginForm() {
                 <small className="text-muted">
                   Não tem conta?{' '}
                   <a
-                    href="/signin"
+                    href="/register"
                     className="text-purple-dark fw-semibold"
                     style={{ textDecoration: 'none' }}
                   >

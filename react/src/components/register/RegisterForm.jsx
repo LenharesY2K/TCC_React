@@ -171,7 +171,7 @@ export default function RegisterForm() {
               <p className="mb-0">
                 <small className="text-muted">
                   Já tem uma conta?{" "}
-                  <a href="#" className="text-purple-dark fw-semibold" style={{ textDecoration: "none" }}>Fazer Login</a>
+                  <a href="/login" className="text-purple-dark fw-semibold" style={{ textDecoration: "none" }}>Fazer Login</a>
                 </small>
               </p>
             </div>

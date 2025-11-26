@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
+import {
   faSearch,
   faBell,
   faEnvelope,
@@ -10,7 +10,7 @@ import {
   faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 
-export default function Navbar() {
+export default function Navbar({ user }) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const [notifications] = useState(99);
@@ -47,19 +47,19 @@ export default function Navbar() {
           </div>
 
 
-          <div 
+          <div
             className="profile-section"
             onClick={() => setShowProfileMenu(!showProfileMenu)}
           >
             <div className="profile-info">
-              <span className="profile-name">Nicolas</span>
-              <span className="profile-role">Admin</span>
+              <span className="profile-name">{user.name || user.username}</span>
+              <span className="profile-role">{user.company_id}</span>
             </div>
             <div className="profile-pic">
               <FontAwesomeIcon icon={faUser} className="profile-icon" />
             </div>
-            <FontAwesomeIcon 
-              icon={faChevronDown} 
+            <FontAwesomeIcon
+              icon={faChevronDown}
               className={`chevron ${showProfileMenu ? 'rotated' : ''}`}
             />
 
@@ -74,7 +74,7 @@ export default function Navbar() {
                   <span>Configurações</span>
                 </a>
                 <div className="dropdown-divider"></div>
-                <a href="#logout" className="dropdown-item logout">
+                <a href="/login" className="dropdown-item logout">
                   <FontAwesomeIcon icon={faSignOutAlt} />
                   <span>Sair</span>
                 </a>
