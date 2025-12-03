@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import './css/css.css';
-import Sidebar from './Sidebar';
-import Navbar from './Navbar';
-import MainContent from './MainContent';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import SelectPageChoice from "../Pagechoice/SelectPageChoice";
 
-export default function Main() {
-
+export default function PageChoice() {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
@@ -32,30 +28,15 @@ export default function Main() {
                 return response.json();
             })
             .then(data => {
-                if (data.user) {
-                    setUser(data.user);
-                }
+                if (data.user) setUser(data.user);
             })
             .catch(() => navigate('/login'));
 
     }, [navigate]);
 
     if (!user) {
-        return <div>Usuario</div>;
+        return <div>Carregando...</div>;
     }
 
-    if (user && !user.company_id) {
-        navigate("/pageChoice");
-    }
-
-
-    return (
-        <>
-            <Sidebar />
-            <Navbar user={user} />
-            <div className="main-content">
-                <MainContent user={user} />
-            </div>
-        </>
-    );
+    return <SelectPageChoice user={user} />;
 }

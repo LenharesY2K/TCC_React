@@ -4,6 +4,7 @@ import "./css/PageContainer.css";
 export default function PageContainer() {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [message, setMessage] = useState(''); // <---- CORREÇÃO
 
     const togglePassword = () => {
         setShowPassword(!showPassword);
@@ -12,31 +13,40 @@ export default function PageContainer() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setMessage('');
+
+        const codeInput = document.getElementById('invitationCode').value;
+        const token = localStorage.getItem('token');
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const res = await fetch('http://localhost:8000/api/users/companyingress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ entercode: codeInput })
+            });
 
-            window.location.href = '/dashboard';
+            const data = await res.json();
+
+            if (res.ok) {
+                console.log('Empresa vinculada:', data.company);
+                setMessage('Empresa vinculada com sucesso!');
+                // redirecionar para dashboard
+                window.location.href = '/dashboard';
+            } else {
+                setMessage(data.message || 'Código inválido');
+            }
 
         } catch (error) {
-            console.error('Erro no login:', error);
-            setIsLoading(false);
-            alert('Erro ao fazer login');
+            console.error('Erro ao vincular empresa:', error);
+            setMessage('Erro de conexão');
         }
+
+        setIsLoading(false);
     };
-
-    useEffect(() => {
-        const input = document.getElementById("invitationCode");
-
-        input.addEventListener("input", () => {
-            const val = input.value.slice(0, 6);
-
-            for (let i = 0; i < 6; i++) {
-                const slot = document.getElementById(`slot-${i}`);
-                slot.textContent = val[i] || "";
-            }
-        });
-    }, []);
 
     return (
         <div className="code-container">

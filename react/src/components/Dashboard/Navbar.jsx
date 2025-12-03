@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from "react-router-dom";
+
 import {
   faSearch,
   faBell,
@@ -15,6 +17,20 @@ export default function Navbar({ user }) {
   const [searchFocused, setSearchFocused] = useState(false);
   const [notifications] = useState(99);
   const [messages] = useState(99);
+
+  const displayName =
+    user?.name || user?.username || "Usuário";
+
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
+  function handleLogout() {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
 
   return (
     <>
@@ -52,8 +68,8 @@ export default function Navbar({ user }) {
             onClick={() => setShowProfileMenu(!showProfileMenu)}
           >
             <div className="profile-info">
-              <span className="profile-name">{user.name || user.username}</span>
-              <span className="profile-role">{user.company_id}</span>
+              <span className="profile-name">{displayName}</span>
+              <span className="profile-role">Admin</span>
             </div>
             <div className="profile-pic">
               <FontAwesomeIcon icon={faUser} className="profile-icon" />
@@ -74,7 +90,15 @@ export default function Navbar({ user }) {
                   <span>Configurações</span>
                 </a>
                 <div className="dropdown-divider"></div>
-                <a href="/login" className="dropdown-item logout">
+                <a
+                  href="#"
+                  className="dropdown-item logout"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                  }}
+                >
                   <FontAwesomeIcon icon={faSignOutAlt} />
                   <span>Sair</span>
                 </a>

@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-purple-dark {
+  background-color:  rgba(54, 56, 180, 0.95);
+}
+.text-purple-dark {
+  color:  rgba(54, 56, 180, 0.95);
+}
+.btn-custom {
+  background-color: #B388FF;
+  border-color: #B388FF;
+  color:  rgba(54, 56, 180, 0.95);
+  font-weight: bold;
+}
+.onboarding-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff00;
+  position: inherit;
+}
+.option-card {
+  cursor: pointer;
+  position: relative;
+  border: 2px solid #dee2e6; 
+  border-radius: 40px;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.option-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-color: rgba(22, 23, 80, 0.95); 
+}
+
+.option-card .card-body {
+  display: flex;
+  align-items: center;
+}
+
+.option-icon {
+  font-size: 2.5rem;
+  margin-right: 20px;
+  color:  rgba(54, 56, 180, 0.95);
+}
+
+.btn-outline-secondary{
+  border-radius: 10px;
+  color:  rgba(54, 56, 180, 0.95);
+  transition: all 0.5s ease;
+}
+
+.btn-outline-secondary:hover{
+  transform: translateY(-2px);
+  background-color: #c7c7c7;
+  color:  rgba(54, 56, 180, 0.95);
+}

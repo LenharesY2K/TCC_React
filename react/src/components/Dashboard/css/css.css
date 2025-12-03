@@ -147,6 +147,14 @@
     margin-top: 0;
 }
 
+.dashboard-nav {
+    margin-top: -10px;
+}
+
+.section-dashboard {
+    margin-bottom: 10px;
+}
+
 .nav-link {
     color: #e3e9ff;
     font-size: 14px;
@@ -208,6 +216,18 @@
     left: 260px;
     z-index: 10;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.493);
+}
+
+.dashboard-active {
+    font-family: poppins, sans-serif;
+    font-weight: 600;
+    color: white;
+    padding-right: 26px;
+    font-size: 22px;
+}
+
+.dashboard-icon-active {
+    font-size: 20px;
 }
 
 .search-box {
@@ -383,7 +403,9 @@
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
 

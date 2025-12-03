@@ -180,3 +180,24 @@
      font-size: 16px;
    }
  }
+
+.p-alert {
+  color: #1872c7;
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  margin: 25px 0;
+  
+  padding: 14px 20px;
+  background: rgba(27, 79, 146, 0.08);
+  border-left: 4px solid #1872c7;
+  border-radius: 6px;
+  
+  backdrop-filter: blur(2px);
+  animation: fadeInAlert 0.4s ease-out forwards;
+}
+
+@keyframes fadeInAlert {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

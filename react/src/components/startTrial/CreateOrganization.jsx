@@ -71,10 +71,6 @@ export default function CreateOrganization() {
                     .replace(/(\d{4})(\d)/, '$1-$2')
                     .slice(0, 18);
             };
-
-            cnpjRef.current.addEventListener('input', (e) => {
-                e.target.value = maskCNPJ(e.target.value);
-            });
         }
     }, []);
 
@@ -97,159 +93,215 @@ export default function CreateOrganization() {
         });
     };
 
-    const handleSubmit = () => {
-        console.log('Form submitted:', formData, modules);
+    const handleSubmit = async () => {
+        if (
+            !formData.companyName.trim() ||
+            !formData.cnpj.trim() ||
+            !formData.acceptTerms
+        ) {
+            alert("Preencha todos os campos e aceite os termos.");
+            return;
+        }
+
+        let totalCents = 0;
+        Object.keys(modules).forEach((mod) => {
+            if (modules[mod]) totalCents += Math.round(prices[mod] * 100);
+        });
+
+        try {
+            const res = await fetch("http://localhost:8000/api/users/starttrial", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify({
+                    name: formData.companyName,
+                    cnpj: formData.cnpj,
+                    price_monthly_cents: totalCents
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                console.warn("Erro ao iniciar trial:", data);
+                alert(data.message || "Erro ao iniciar o período de teste");
+                return;
+            }
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            window.location.href = "/dashboard";
+
+        } catch (err) {
+            console.error("Erro inesperado:", err);
+            alert("Ocorreu um erro inesperado.");
+        }
     };
 
     return (
         <>
-                <div className="creation-wrapper">
-                    <div className="creation-container-new">
-                        <div className="form-container-new">
-                            <div className="form-header-new">
-                                <h1>Configuração Inicial</h1>
-                                <p>Preencha os dados e selecione os módulos para iniciar seu <strong>Trial de 7 dias gratuito</strong></p>
-                            </div>
+            <div className="creation-wrapper">
+                <div className="creation-container-new">
+                    <div className="form-container-new">
+                        <div className="form-header-new">
+                            <h1>Configuração Inicial</h1>
+                            <p>Preencha os dados e selecione os módulos para iniciar seu <strong>Trial de 7 dias gratuito</strong></p>
+                        </div>
 
-                            <div>
-                                <div className="form-section-new">
-                                    <div className="section-header-new">
-                                        <h2>Dados da Empresa</h2>
-                                    </div>
-
-                                    <div className="form-grid-new">
-                                        <div className="form-group-new">
-                                            <label>Nome da Empresa (Razão Social)</label>
-                                            <input
-                                                type="text"
-                                                className="form-input-new"
-                                                placeholder="Ex: Apê Soluções S.A."
-                                                value={formData.companyName}
-                                                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                                            />
-                                        </div>
-
-                                        <div className="form-group-new">
-                                            <label>CNPJ</label>
-                                            <input
-                                                ref={cnpjRef}
-                                                type="text"
-                                                className="form-input-new"
-                                                placeholder="00.000.000/0000-00"
-                                                value={formData.cnpj}
-                                                onChange={(e) => setFormData({ ...formData, cnpj: e.target.value })}
-                                            />
-                                        </div>
-                                    </div>
+                        <div>
+                            <div className="form-section-new">
+                                <div className="section-header-new">
+                                    <h2>Dados da Empresa</h2>
                                 </div>
 
-                                <div className="form-section-new">
-                                    <div className="section-header-new">
-                                        <h2 className="special">Seleção de Módulos</h2>
-
+                                <div className="form-grid-new">
+                                    <div className="form-group-new">
+                                        <label>Nome da Empresa (Razão Social)</label>
+                                        <input
+                                            type="text"
+                                            className="form-input-new"
+                                            placeholder="Ex: Apê Soluções S.A."
+                                            value={formData.companyName}
+                                            onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                                        />
                                     </div>
 
-                                    <div className="modules-grid-new">
-                                        {modulesInfo.map((module) => (
-                                            <div
-                                                key={module.id}
-                                                className={`module-card-new ${modules[module.id] ? 'selected' : ''} ${module.disabled ? 'disabled' : ''}`}
-                                                onClick={() => toggleModule(module.id)}
-                                                style={{ borderColor: modules[module.id] ? module.color : '#e5e7eb' }}
-                                            >
-                                                {modules[module.id] && (
-                                                    <div className="check-badge" style={{ background: module.color }}>
+                                    <div className="form-group-new">
+                                        <label>CNPJ</label>
+                                        <input
+                                            ref={cnpjRef}
+                                            type="text"
+                                            className="form-input-new"
+                                            placeholder="00.000.000/0000-00"
+                                            value={formData.cnpj}
+                                            onChange={(e) => {
+                                                const value = e.target.value
+                                                    .replace(/\D/g, '')
+                                                    .replace(/^(\d{2})(\d)/, '$1.$2')
+                                                    .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+                                                    .replace(/\.(\d{3})(\d)/, '.$1/$2')
+                                                    .replace(/(\d{4})(\d)/, '$1-$2')
+                                                    .slice(0, 18);
+
+                                                setFormData({
+                                                    ...formData,
+                                                    cnpj: value
+                                                });
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="form-section-new">
+                                <div className="section-header-new">
+                                    <h2 className="special">Seleção de Módulos</h2>
+
+                                </div>
+
+                                <div className="modules-grid-new">
+                                    {modulesInfo.map((module) => (
+                                        <div
+                                            key={module.id}
+                                            className={`module-card-new ${modules[module.id] ? 'selected' : ''} ${module.disabled ? 'disabled' : ''}`}
+                                            onClick={() => toggleModule(module.id)}
+                                            style={{ borderColor: modules[module.id] ? module.color : '#e5e7eb' }}
+                                        >
+                                            {modules[module.id] && (
+                                                <div className="check-badge" style={{ background: module.color }}>
+                                                    <FontAwesomeIcon icon={faCheckCircle} />
+                                                </div>
+                                            )}
+
+                                            <div className="module-icon-new" style={{ background: `${module.color}20`, color: module.color }}>
+                                                <FontAwesomeIcon icon={module.icon} />
+                                            </div>
+
+                                            <h3>{module.name}</h3>
+                                            <p className="module-description">{module.description}</p>
+
+                                            <ul className="module-features">
+                                                {module.features.map((feature, idx) => (
+                                                    <li key={idx}>
                                                         <FontAwesomeIcon icon={faCheckCircle} />
-                                                    </div>
-                                                )}
+                                                        {feature}
+                                                    </li>
+                                                ))}
+                                            </ul>
 
-                                                <div className="module-icon-new" style={{ background: `${module.color}20`, color: module.color }}>
-                                                    <FontAwesomeIcon icon={module.icon} />
-                                                </div>
-
-                                                <h3>{module.name}</h3>
-                                                <p className="module-description">{module.description}</p>
-
-                                                <ul className="module-features">
-                                                    {module.features.map((feature, idx) => (
-                                                        <li key={idx}>
-                                                            <FontAwesomeIcon icon={faCheckCircle} />
-                                                            {feature}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-
-                                                <div className="module-price">
-                                                    <span className="price-value">
-                                                        {prices[module.id].toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                                                    </span>
-                                                    <span className="price-period">/ mês</span>
-                                                </div>
-
-                                                {module.disabled && (
-                                                    <div className="required-badge">Obrigatório</div>
-                                                )}
+                                            <div className="module-price">
+                                                <span className="price-value">
+                                                    {prices[module.id].toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                                </span>
+                                                <span className="price-period">/ mês</span>
                                             </div>
-                                        ))}
-                                    </div>
 
-                                    {/* Total */}
-                                    <div className="total-card-new">
-                                        <div className="total-content">
-                                            <div>
-                                                <span className="total-label">Total Estimado</span>
-                                                <span className="total-sublabel">(Após o Trial)</span>
-                                            </div>
-                                            <div className="total-price">{totalPrice()}<span>/mês</span></div>
+                                            {module.disabled && (
+                                                <div className="required-badge">Obrigatório</div>
+                                            )}
                                         </div>
-                                        <div className="trial-notice">
-                                            <FontAwesomeIcon icon={faClock} />
-                                            <span>Você terá 7 dias de Trial gratuito para testar todos os módulos</span>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
 
-                                {/* Seção 3: Termos */}
-                                <div className="form-section-new">
-                                    <div className="section-header-new">
-                                        <FontAwesomeIcon icon={faShieldAlt} />
-                                        <h2>Confirmação e Termos</h2>
+                                {/* Total */}
+                                <div className="total-card-new">
+                                    <div className="total-content">
+                                        <div>
+                                            <span className="total-label">Total Estimado</span>
+                                            <span className="total-sublabel">(Após o Trial)</span>
+                                        </div>
+                                        <div className="total-price">{totalPrice()}<span>/mês</span></div>
                                     </div>
-
-                                    <div className="terms-card-new">
-                                        <label className="terms-checkbox">
-                                            <input
-                                                type="checkbox"
-                                                checked={formData.acceptTerms}
-                                                onChange={(e) => setFormData({ ...formData, acceptTerms: e.target.checked })}
-                                            />
-                                            <span className="checkmark"></span>
-                                            <div className="terms-text">
-                                                <strong>Declaro que aceito os termos de uso</strong>
-                                                <ul>
-                                                    <li>
-                                                        <FontAwesomeIcon icon={faShieldAlt} />
-                                                        Minha conta será criada como Administrador Mestre
-                                                    </li>
-                                                    <li>
-                                                        <FontAwesomeIcon icon={faClock} />
-                                                        Após o Trial de 7 dias, os módulos selecionados serão cobrados mensalmente
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </label>
+                                    <div className="trial-notice">
+                                        <FontAwesomeIcon icon={faClock} />
+                                        <span>Você terá 7 dias de Trial gratuito para testar todos os módulos</span>
                                     </div>
                                 </div>
-
-                                {/* Botão de Submit */}
-                                <button onClick={handleSubmit} className="submit-btn-new">
-                                    <span>Finalizar Cadastro</span>
-                                    <FontAwesomeIcon icon={faChevronRight} />
-                                </button>
                             </div>
+
+                            {/* Seção 3: Termos */}
+                            <div className="form-section-new">
+                                <div className="section-header-new">
+                                    <FontAwesomeIcon icon={faShieldAlt} />
+                                    <h2>Confirmação e Termos</h2>
+                                </div>
+
+                                <div className="terms-card-new">
+                                    <label className="terms-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            checked={formData.acceptTerms}
+                                            onChange={(e) => setFormData({ ...formData, acceptTerms: e.target.checked })}
+                                        />
+                                        <span className="checkmark"></span>
+                                        <div className="terms-text">
+                                            <strong>Declaro que aceito os termos de uso</strong>
+                                            <ul>
+                                                <li>
+                                                    <FontAwesomeIcon icon={faShieldAlt} />
+                                                    Minha conta será criada como Administrador Mestre
+                                                </li>
+                                                <li>
+                                                    <FontAwesomeIcon icon={faClock} />
+                                                    Após o Trial de 7 dias, os módulos selecionados serão cobrados mensalmente
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            {/* Botão de Submit */}
+                            <button onClick={handleSubmit} className="submit-btn-new">
+                                <span>Finalizar Cadastro</span>
+                                <FontAwesomeIcon icon={faChevronRight} />
+                            </button>
                         </div>
                     </div>
                 </div>
+            </div>
         </>
     );
 }

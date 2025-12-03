@@ -4,7 +4,7 @@ import LoginBackground from "../login/LoginBackground";
 
 export default function LoginPage() {
     return (
-        <div style={{ position: 'relative' }}>
+        <div className="maincontent">
             <LoginBackground />
             <LoginForm />
         </div>
