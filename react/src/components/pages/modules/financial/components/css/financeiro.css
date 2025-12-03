@@ -21,7 +21,6 @@
     overflow: hidden;
     min-height: 900px;
 }
-
 .financeiro-card-header {
     background: linear-gradient(135deg, rgba(54, 56, 180, 0.95) 0%, rgba(22, 23, 80, 0.95) 100%);
     padding: 20px 15px;
